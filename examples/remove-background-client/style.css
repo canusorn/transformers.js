@@ -15,7 +15,7 @@ body {
 }
 
 body,
-#container,
+#upload-section,
 #upload-button {
   display: flex;
   flex-direction: column;
@@ -32,19 +32,209 @@ h4 {
   margin-top: 0.5rem;
 }
 
-#container {
-  position: relative;
-  width: 720px;
-  height: 480px;
-  max-width: 100%;
-  max-height: 100%;
+#upload-section {
+  margin-top: 1rem;
+  padding: 2rem;
   border: 2px dashed #D1D5DB;
   border-radius: 0.75rem;
-  overflow: hidden;
+  width: 100%;
+  max-width: 720px;
+}
+
+#queue-section {
+  margin: 1rem 0;
+  width: 100%;
+  max-width: 720px;
+}
+
+#queue-controls {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+
+#queue-controls button {
+  padding: 0.5rem 1rem;
+  border: 1px solid #D1D5DB;
+  border-radius: 0.5rem;
+  background: white;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+#queue-controls button:hover {
+  background: #F3F4F6;
+}
+
+#queue-controls button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+#queue-status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+}
+
+#images-container {
+  width: 100%;
+  max-width: 1400px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
   margin-top: 1rem;
-  background-size: 100% 100%;
-  background-position: center;
-  background-repeat: no-repeat;
+}
+
+#original-section,
+#processed-section {
+  display: flex;
+  flex-direction: column;
+}
+
+#original-section h3,
+#processed-section h3 {
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background: #F3F4F6;
+  border-radius: 0.5rem;
+  text-align: center;
+  font-size: 16px;
+  color: #374151;
+  border: 1px solid #E5E7EB;
+}
+
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  min-height: 200px;
+}
+
+@media (max-width: 768px) {
+  #images-container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .image-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+}
+
+.image-result {
+  position: relative;
+  border: 1px solid #D1D5DB;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  background: #F9FAFB;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.image-result:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.original-image {
+  border-left: 4px solid #3B82F6;
+}
+
+.processed-image {
+  border-left: 4px solid #10B981;
+}
+
+.image-result img,
+.image-result canvas {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  background-image: 
+    linear-gradient(45deg, #ccc 25%, transparent 25%), 
+    linear-gradient(-45deg, #ccc 25%, transparent 25%), 
+    linear-gradient(45deg, transparent 75%, #ccc 75%), 
+    linear-gradient(-45deg, transparent 75%, #ccc 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+}
+
+.image-info {
+  padding: 0.75rem;
+  font-size: 12px;
+  color: #6B7280;
+  border-top: 1px solid #E5E7EB;
+  background: white;
+}
+
+.image-info > div {
+  margin-bottom: 0.25rem;
+}
+
+.image-info > div:last-child {
+  margin-bottom: 0;
+}
+
+.status {
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 11px;
+  display: inline-block;
+  margin-top: 0.25rem;
+}
+
+.status.pending {
+  background: #FEF3C7;
+  color: #92400E;
+}
+
+.status.processing {
+  background: #DBEAFE;
+  color: #1E40AF;
+  animation: pulse 2s infinite;
+}
+
+.status.error {
+  background: #FEE2E2;
+  color: #DC2626;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.image-actions {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  border-top: 1px solid #E5E7EB;
+  background: #F9FAFB;
+}
+
+.image-actions button {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #D1D5DB;
+  border-radius: 0.25rem;
+  background: white;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.image-actions button:hover {
+  background: #F3F4F6;
+  border-color: #9CA3AF;
+  transform: translateY(-1px);
+}
+
+.image-actions button:active {
+  transform: translateY(0);
 }
 
 #upload-button {
@@ -71,11 +261,7 @@ svg {
   color: #2563EB;
 }
 
-canvas {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-}
+
 
 #status {
   min-height: 16px;
